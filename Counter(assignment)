@@ -1,0 +1,131 @@
+import 'package:flutter/material.dart';
+
+// Stateless widget for the counter app
+class CounterApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: CountingState(),
+    );
+  }
+}
+
+// Stateful widget for counting state
+class CountingState extends StatefulWidget {
+  @override
+  _CountingState createState() => _CountingState();
+}
+
+class _CountingState extends State<CountingState> {
+  int count = 0;
+  String message = "";
+
+  void incrementCount() {
+    setState(() {
+      count++;
+      updateMessage();
+    });
+  }
+
+  void decrementCount() {
+    if (count > 0) {
+      setState(() {
+        count--;
+        updateMessage();
+      });
+    }
+  }
+
+  void updateMessage() {
+    if (count == 0) {
+      message = "Reach the limit";
+    } else if (count == 5) {
+      message = "This is five";
+    } else if (count == 20) {
+      message = "This is 20";
+    } else {
+      message = "";
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Counter App Assignment'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Current Count:',
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              '$count',
+              style: TextStyle(
+                fontSize: 50,
+                fontWeight: FontWeight.bold,
+                color: count == 0
+                    ? Colors.red
+                    : count == 5
+                        ? Colors.green
+                        : count == 20
+                            ? Colors.purple
+                            : count < 20
+                                ? Colors.black
+                                : Colors.orange,
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: decrementCount,
+            child: Icon(Icons.remove),
+          ),
+          SizedBox(width: 10),
+          FloatingActionButton(
+            onPressed: incrementCount,
+            child: Icon(Icons.add),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Design class with "Let's begin your counting" text and a floating button
+class Counting extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Counting'),
+      ),
+      body: Center(
+        child: Text(
+          "Let's begin your counting",
+          style: TextStyle(fontSize: 24),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CountingState()),
+          );
+        },
+        child: Icon(Icons.play_arrow),
+      ),
+    );
+  }
+}
+
+void main() {
+  runApp(CounterApp());
+}
